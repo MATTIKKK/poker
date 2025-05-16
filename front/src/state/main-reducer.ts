@@ -28,9 +28,9 @@ export const mainReducer = (state: MainStateType = initialState, action: MainAct
   }
 };
 
-export const ChangeModalAC = (modal: ModalType) => {
+export const ChangeModalAC = (modal: ModalType): ChangeModalActionType => {
     return {
-        type: MainEnumType,
+        type: MainEnumType.CHANGEMODALTYPE,
         modal
     }
 }
