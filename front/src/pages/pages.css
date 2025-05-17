@@ -140,14 +140,11 @@
   text-decoration: underline;
 }
 
-
-
-
 .lobby {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px 40px;           /* сверху-снизу отступ поменьше, чем 100vh-центровка */
+  padding: 60px 20px 40px; /* сверху-снизу отступ поменьше, чем 100vh-центровка */
   min-height: 100vh;
   gap: 40px;
   position: relative;
@@ -248,8 +245,6 @@
   transform: translateY(-2px);
 }
 
-
-
 .poker-game {
   display: flex;
   align-items: center;
@@ -257,23 +252,42 @@
   min-height: 100vh;
 }
 
-
-.table-wrapper {   
+.table-wrapper {
   position: relative;
   width: 80%;
   height: 540px;
   margin: 40px auto;
 }
 
-.poker-table {            /* сделал эллипс более вытянутым */
+.poker-table {
+  /* сделал эллипс более вытянутым */
   position: absolute;
-  top: 50%; left: 50%;
-  width: 70%;           /* ширина/высота заданы % от wrapper → адаптивно */
+  top: 50%;
+  left: 50%;
+  width: 70%; /* ширина/высота заданы % от wrapper → адаптивно */
   height: 68%;
   transform: translate(-50%, -50%);
   background: #136b27;
   border: 8px solid #d4b865;
   border-radius: 50% / 60%; /* красивее овальное */
+  box-shadow: 0px 50px 5px rgba(0, 0, 0, 0.463);
+}
+.board {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* ровно по центру стола */
+  display: flex;
+  gap: 15px; /* небольшое расстояние */
+  z-index: 5; /* выше фона стола, ниже игроков */
+}
+
+.card-board {
+  width: 70px; /* подгоните под дизайн */
+  border-radius: 6px;
+  padding: 3px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
 /* ── само место игрока ─────────────────────────────────────────── */
@@ -284,7 +298,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  font: 14px/1.2 "Inter", sans-serif;
+  font: 14px/1.2 'Inter', sans-serif;
   color: #fff;
 }
 
@@ -295,32 +309,83 @@
   border-radius: 50%;
   border: 3px solid #fff;
   object-fit: cover;
-  box-shadow: 0 0 4px rgba(0,0,0,.45);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.45);
 }
 
+.player-header {
+  display: flex;
+  background: var(--dark-green);
+  border-radius: 39px;
+  padding: 10px 20px 10px 10px;
+  gap: 10px;
+  align-items: center;
+}
 
-.seat-0 { bottom: -10%; left: 50%; transform: translate(-50%, 0%); }     /* снизу    */
-.seat-1 { top: -10%;  left: 50%; transform: translate(-50%, 0); }         /* сверху   */
-.seat-2 { top: 51%;  left: 10%; transform: translate(-50%, -50%); }  /* левый центр   */
-.seat-3 { top: 51%;  left: 90%; transform: translate(-50%, -50%); }   /* правый центр  */
-.seat-4 { top: 12%; left: 76%; transform: translate(-50%, -50%); }      /* верх-право */
-.seat-5 { bottom: -2%; left: 24%; transform: translate(-50%, 0%); }      /* низ-лево */
-.seat-6 { top: 12%; left: 25%; transform: translate(-50%, -50%); }      /* верх-лево */
-.seat-7 { bottom: -2%; left: 76%; transform: translate(-50%, 0%); }      /* низ-право */
+.player-info {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  gap: 10px;
+}
 
+.player-stack {
+  color: lightgreen;
+}
+
+.player-stack.red {
+  color: var(--dark-red);
+}
+
+.seat-0 {
+  bottom: -10%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+} /* снизу    */
+.seat-1 {
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+} /* сверху   */
+.seat-2 {
+  top: 51%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+} /* левый центр   */
+.seat-3 {
+  top: 51%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+} /* правый центр  */
+.seat-4 {
+  top: 12%;
+  left: 76%;
+  transform: translate(-50%, -50%);
+} /* верх-право */
+.seat-5 {
+  bottom: -2%;
+  left: 24%;
+  transform: translate(-50%, 0%);
+} /* низ-лево */
+.seat-6 {
+  top: 12%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+} /* верх-лево */
+.seat-7 {
+  bottom: -2%;
+  left: 76%;
+  transform: translate(-50%, 0%);
+} /* низ-право */
 
 .card-small {
   background: white;
   border-radius: 5px;
   width: 50px;
   padding: 2px;
-  
 }
-
 
 .hole {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-

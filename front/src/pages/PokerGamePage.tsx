@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Card, Rank, Suit } from '../types/poker';
+import { Card, Rank, Street, Suit } from '../types/poker';
 import './pages.css';
-
 
 export const mockParticipants = [
   {
@@ -93,13 +92,14 @@ export const mockParticipants = [
     isDealer: false,
     isSmallBlind: false,
     isBigBlind: false,
-    avatarUrl: 'https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/user-male-circle-blue-512.png',
+    avatarUrl:
+      'https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/user-male-circle-blue-512.png',
   },
   {
     id: 'p8',
     gameId: 'a1b2c3',
     name: 'Henry',
-    stack: 700,
+    stack: 70,
     rating: 1005,
     level: 'Beginner',
     seat: 7,
@@ -111,17 +111,44 @@ export const mockParticipants = [
 ];
 
 const rankName: Record<Rank, string> = {
-  '2': '2',  '3': '3',  '4': '4',  '5': '5',  '6': '6',
-  '7': '7',  '8': '8',  '9': '9',  T: '10',
-  J: 'jack', Q: 'queen', K: 'king', A: 'ace'
+  '2': '2',
+  '3': '3',
+  '4': '4',
+  '5': '5',
+  '6': '6',
+  '7': '7',
+  '8': '8',
+  '9': '9',
+  T: '10',
+  J: 'jack',
+  Q: 'queen',
+  K: 'king',
+  A: 'ace',
 };
 
 const suitName: Record<Suit, string> = {
-  c: 'clubs', d: 'diamonds', h: 'hearts', s: 'spades'
+  c: 'clubs',
+  d: 'diamonds',
+  h: 'hearts',
+  s: 'spades',
 };
 
-const ranks: Rank[] = ['2','3','4','5','6','7','8','9','T','J','Q','K','A'];
-const suits: Suit[] = ['c','d','h','s'];
+const ranks: Rank[] = [
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  'T',
+  'J',
+  'Q',
+  'K',
+  'A',
+];
+const suits: Suit[] = ['c', 'd', 'h', 's'];
 
 export function cardImg(c: Card) {
   return `/cards/${rankName[c.rank]}_of_${suitName[c.suit]}.png`;
@@ -140,6 +167,20 @@ export function shuffle<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function openCount(street: Street) {
+  switch (street) {
+    case 'flop':
+      return 3;
+    case 'turn':
+      return 4;
+    case 'river':
+    case 'showdown':
+      return 5;
+    default:
+      return 3; // preflop
+  }
 }
 
 export function deal(statePlayers: any) {
@@ -167,6 +208,7 @@ export default function PokerGamePage() {
   interface DealState {
     board: Card[];
     players: any[];
+    street: Street;
   }
 
   const currentUserId = 'p8';
@@ -177,30 +219,55 @@ export default function PokerGamePage() {
       a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0
     );
 
-    setDealState(deal(ordered));
+    setDealState({ ...deal(ordered), street: 'preflop' });
   }, []);
 
-  if (!dealState) return null;          
+  if (!dealState) return null;
 
-  const { board, players } = dealState;
-  
+  const { board, players, street } = dealState;
+  const nOpen = openCount(street);
 
   return (
     <div className="poker-game">
       <div className="table-wrapper">
         <div className="poker-table" />
 
+        <div className="board">
+          {board.map((c, idx) => (
+            <img
+              key={idx}
+              className="card-board"
+              src={idx < nOpen ? cardImg(c) : '/cards/back.jpg'}
+              alt=""
+            />
+          ))}
+        </div>
+
         {players.map((p: any, i: any) => (
           <div className={`seat seat-${i}`} key={p.id}>
-            <img src={p.avatar ?? '/img/default-avatar.png'} alt={p.name} className='user-avatar'/>
-            <span>{p.name}</span>
+            {/* ── верхняя строка: аватар + инфо ───────────────── */}
+            <div className="player-header">
+              <img
+                className="user-avatar"
+                src={p.avatarUrl ?? '/img/default-avatar.png'}
+                alt={p.name}
+              />
 
-             <div className="hole">
-              {p.hole.map((c: any, idx: any) => (
+              <div className="player-info">
+                <span className="player-name">{p.name}</span>
+                <span className={`player-stack ${p.stack < 100 ? 'red': ''}`}>
+                  ${p.stack.toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            <div className="hole">
+              {p.hole.map((c: Card, idx: number) => (
                 <img
                   key={idx}
                   className="card-small"
                   src={p.id === currentUserId ? cardImg(c) : '/cards/back.jpg'}
+                  alt=""
                 />
               ))}
             </div>
