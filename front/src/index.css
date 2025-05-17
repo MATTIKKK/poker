@@ -3,7 +3,9 @@
   --dark-red: #b03432;
   --cream: #f1eadb;
   --black: #252728;
-
+  --chip-w: 46px;   
+  --chip-h: 14px;    
+  --chip-gap: 3px;
 }
 
 body {

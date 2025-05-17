@@ -1,7 +1,5 @@
 import React from 'react';
 import './pages.css';
-import chip from '../static/img/chip.png';
-import money from '../static/img/dollar.png';
 import { ChangeModalAC } from '../state/main-reducer';
 import { useDispatch } from 'react-redux';
 import ShowModal from '../components/show-modal/ShowModal';
@@ -15,7 +13,7 @@ const ChipsRain = () => {
         const left = Math.random() * 100;
         const delay = Math.random() * 5;
         const duration = 6 + Math.random() * 4;
-        const img = isChip ? money : chip;
+        const img = isChip ? 'static/img/dollar.pngic/' : 'static/img/dollar.png';
         return (
           <span
             key={i}

@@ -289,7 +289,7 @@
 }
 
 /* аватар */
-.seat img {
+.seat img.user-avatar {
   width: 64px;
   height: 64px;
   border-radius: 50%;
@@ -299,11 +299,28 @@
 }
 
 
-.seat-0 { top: 105%; left: 50%; transform: translate(-50%, -100%); }     /* снизу    */
-.seat-1 { top: -3%;  left: 50%; transform: translate(-50%, 0); }         /* сверху   */
-.seat-2 { top: 51%;  left: 8%; transform: translate(-50%, -50%); }  /* левый центр   */
-.seat-3 { top: 51%;  left: 92%; transform: translate(-50%, -50%); }   /* правый центр  */
+.seat-0 { bottom: -10%; left: 50%; transform: translate(-50%, 0%); }     /* снизу    */
+.seat-1 { top: -10%;  left: 50%; transform: translate(-50%, 0); }         /* сверху   */
+.seat-2 { top: 51%;  left: 10%; transform: translate(-50%, -50%); }  /* левый центр   */
+.seat-3 { top: 51%;  left: 90%; transform: translate(-50%, -50%); }   /* правый центр  */
 .seat-4 { top: 12%; left: 76%; transform: translate(-50%, -50%); }      /* верх-право */
-.seat-5 { top: 92%; left: 25%; transform: translate(-50%, -50%); }      /* низ-лево */
+.seat-5 { bottom: -2%; left: 24%; transform: translate(-50%, 0%); }      /* низ-лево */
 .seat-6 { top: 12%; left: 25%; transform: translate(-50%, -50%); }      /* верх-лево */
-.seat-7 { top: 92%; left: 76%; transform: translate(-50%, -50%); }      /* низ-право */
+.seat-7 { bottom: -2%; left: 76%; transform: translate(-50%, 0%); }      /* низ-право */
+
+
+.card-small {
+  background: white;
+  border-radius: 5px;
+  width: 50px;
+  padding: 2px;
+  
+}
+
+
+.hole {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+

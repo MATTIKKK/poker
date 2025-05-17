@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+import { Card, Rank, Suit } from '../types/poker';
 import './pages.css';
+
 
 export const mockParticipants = [
   {
@@ -90,7 +93,7 @@ export const mockParticipants = [
     isDealer: false,
     isSmallBlind: false,
     isBigBlind: false,
-    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Grace',
+    avatarUrl: 'https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/user-male-circle-blue-512.png',
   },
   {
     id: 'p8',
@@ -107,24 +110,100 @@ export const mockParticipants = [
   },
 ];
 
-export default function PokerGamePage() {
-  const currentUserId = 'p8';
+const rankName: Record<Rank, string> = {
+  '2': '2',  '3': '3',  '4': '4',  '5': '5',  '6': '6',
+  '7': '7',  '8': '8',  '9': '9',  T: '10',
+  J: 'jack', Q: 'queen', K: 'king', A: 'ace'
+};
 
-  const ordered = [...mockParticipants].sort((a: any, b: any) =>
-    a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0
-  );
+const suitName: Record<Suit, string> = {
+  c: 'clubs', d: 'diamonds', h: 'hearts', s: 'spades'
+};
+
+const ranks: Rank[] = ['2','3','4','5','6','7','8','9','T','J','Q','K','A'];
+const suits: Suit[] = ['c','d','h','s'];
+
+export function cardImg(c: Card) {
+  return `/cards/${rankName[c.rank]}_of_${suitName[c.suit]}.png`;
+}
+
+/* 52 карточки в порядке ♣♦♥♠ 2…A */
+export function newDeck(): Card[] {
+  return suits.flatMap((s) => ranks.map((r) => ({ rank: r, suit: s })));
+}
+
+/* Фишер–Йетс */
+export function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+export function deal(statePlayers: any) {
+  let deck = shuffle(newDeck());
+
+  // две карты каждому игроку
+  const players = statePlayers.map((p: any) => ({
+    ...p,
+    hole: [deck.pop()!, deck.pop()!],
+  }));
+
+  // пять community карт (флоп+терн+ривер разом; потом «скроем» лишние)
+  const board = [
+    deck.pop()!,
+    deck.pop()!,
+    deck.pop()!,
+    deck.pop()!,
+    deck.pop()!,
+  ];
+
+  return { players, board, deck };
+}
+
+export default function PokerGamePage() {
+  interface DealState {
+    board: Card[];
+    players: any[];
+  }
+
+  const currentUserId = 'p8';
+  const [dealState, setDealState] = useState<DealState | null>(null);
+
+  useEffect(() => {
+    const ordered = [...mockParticipants].sort((a: any, b: any) =>
+      a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0
+    );
+
+    setDealState(deal(ordered));
+  }, []);
+
+  if (!dealState) return null;          
+
+  const { board, players } = dealState;
+  
 
   return (
     <div className="poker-game">
       <div className="table-wrapper">
-        {/* сам стол */}
         <div className="poker-table" />
 
-        {/* места за столом */}
-        {ordered.map((p: any, i: any) => (
+        {players.map((p: any, i: any) => (
           <div className={`seat seat-${i}`} key={p.id}>
-            <img src={p.avatar ?? '/img/default-avatar.png'} alt={p.name} />
+            <img src={p.avatar ?? '/img/default-avatar.png'} alt={p.name} className='user-avatar'/>
             <span>{p.name}</span>
+
+             <div className="hole">
+              {p.hole.map((c: any, idx: any) => (
+                <img
+                  key={idx}
+                  className="card-small"
+                  src={p.id === currentUserId ? cardImg(c) : '/cards/back.jpg'}
+                />
+              ))}
+            </div>
           </div>
         ))}
       </div>
