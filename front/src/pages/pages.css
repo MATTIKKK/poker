@@ -8,7 +8,7 @@
   overflow: hidden;
   gap: 50px;
   color: white;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .home::before {
@@ -24,7 +24,6 @@
 }
 
 .home h1 {
-
   font-size: 50px;
 }
 
@@ -39,17 +38,16 @@
   background: var(--dark-red);
   z-index: 2;
   color: white;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 600;
 }
 
-
 .rain-item {
   position: absolute;
-  top: -100px;              
-  background-size: contain; 
+  top: -100px;
+  background-size: contain;
   background-repeat: no-repeat;
-  pointer-events: none;     
+  pointer-events: none;
   animation-name: fallSpin;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -62,3 +60,250 @@
     transform: translateY(110vh) rotate(720deg);
   }
 }
+
+.login,
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.login::before,
+.register::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../static/img/poker-hero.webp');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.login h1,
+.register h1 {
+  font-size: 48px;
+  margin: 0;
+  z-index: 2;
+  font-family: inherit; /* один раз хватит */
+}
+
+.subtext,
+.login-form,
+.register-form {
+  z-index: 2; /* общее */
+}
+
+/* --- формы ------------------------------------------------------------- */
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: min(90%, 380px); /* базовая ширина по-умолчанию */
+}
+
+.login-form input,
+.register-form input {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.login-form button,
+.register-form button {
+  padding: 15px 20px;
+  border-radius: 20px;
+  background: var(--dark-red);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subtext {
+  z-index: 2;
+  font-size: 0.95rem;
+}
+
+.subtext a {
+  color: var(--dark-red);
+  text-decoration: underline;
+}
+
+
+
+
+.lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px 40px;           /* сверху-снизу отступ поменьше, чем 100vh-центровка */
+  min-height: 100vh;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.lobby::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../static/img/poker-hero.webp');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* заголовок */
+.lobby h1 {
+  font-size: 48px;
+  margin: 0;
+  z-index: 2;
+}
+
+/* текст-плейсхолдеры (Loading…, No tables…) */
+.muted {
+  opacity: 0.7;
+  font-size: 1rem;
+  z-index: 2;
+}
+
+/* ====== СПИСОК СТОЛОВ ================================================= */
+
+.table-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: min(90%, 680px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+}
+
+/* карточка одного стола */
+.table-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+/* верхняя строка: название + блайнды */
+.table-main {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.table-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.table-blinds {
+  font-family: monospace;
+}
+
+/* нижняя строка: счётчик игроков + кнопка */
+.table-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+/* кнопка «Join» */
+.join-btn {
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: var(--dark-red);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.join-btn:hover {
+  transform: translateY(-2px);
+}
+
+
+
+.poker-game {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+
+.table-wrapper {   
+  position: relative;
+  width: 80%;
+  height: 540px;
+  margin: 40px auto;
+}
+
+.poker-table {            /* сделал эллипс более вытянутым */
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 70%;           /* ширина/высота заданы % от wrapper → адаптивно */
+  height: 68%;
+  transform: translate(-50%, -50%);
+  background: #136b27;
+  border: 8px solid #d4b865;
+  border-radius: 50% / 60%; /* красивее овальное */
+}
+
+/* ── само место игрока ─────────────────────────────────────────── */
+
+.seat {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font: 14px/1.2 "Inter", sans-serif;
+  color: #fff;
+}
+
+/* аватар */
+.seat img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 0 4px rgba(0,0,0,.45);
+}
+
+
+.seat-0 { top: 105%; left: 50%; transform: translate(-50%, -100%); }     /* снизу    */
+.seat-1 { top: -3%;  left: 50%; transform: translate(-50%, 0); }         /* сверху   */
+.seat-2 { top: 51%;  left: 8%; transform: translate(-50%, -50%); }  /* левый центр   */
+.seat-3 { top: 51%;  left: 92%; transform: translate(-50%, -50%); }   /* правый центр  */
+.seat-4 { top: 12%; left: 76%; transform: translate(-50%, -50%); }      /* верх-право */
+.seat-5 { top: 92%; left: 25%; transform: translate(-50%, -50%); }      /* низ-лево */
+.seat-6 { top: 12%; left: 25%; transform: translate(-50%, -50%); }      /* верх-лево */
+.seat-7 { top: 92%; left: 76%; transform: translate(-50%, -50%); }      /* низ-право */

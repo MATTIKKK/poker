@@ -1,18 +1,23 @@
 import React from 'react';
-import {}
-import './app.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './app.css';
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import LobbyPage from './pages/LobbyPage';
+import PokerGamePage from './pages/PokerGamePage';
 
 function App() {
   return (
-    <BrowseRouter>
-    <Routes>
-
-    </Routes>
-    <HomePage />
-    
-    </BrowseRouter>
-    
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomePage />}/>
+        <Route path='/login' element={<LoginPage />}/>
+        <Route path='/register' element={<RegisterPage />}/>
+        <Route path='/lobby' element={<LobbyPage />}/>
+        <Route path='/game' element={<PokerGamePage />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

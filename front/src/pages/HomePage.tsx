@@ -5,7 +5,7 @@ import money from '../static/img/dollar.png';
 import { ChangeModalAC } from '../state/main-reducer';
 import { useDispatch } from 'react-redux';
 import ShowModal from '../components/show-modal/ShowModal';
-const ChipsRain: React.FC = () => {
+const ChipsRain = () => {
   const items = Array.from({ length: 30 });
   return (
     <div className="">

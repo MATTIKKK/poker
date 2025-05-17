@@ -50,11 +50,11 @@
   transform: scale(1.02);
 }
 
-.modal-btn.register {
+.modal-btn.register-button {
   background: darkgreen;
   color: #fff;
 }
 
-.modal-btn.register:hover {
+.modal-btn.register-button:hover {
   background: var(--dark-green);
 }
