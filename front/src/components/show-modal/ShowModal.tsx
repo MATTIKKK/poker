@@ -2,14 +2,14 @@ import React from 'react';
 import './show-modal.css';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../state/store';
-import { ChangeModalAC, MainStateType } from '../../state/main-reducer';
+import { ChangeModalAC, MainReducerStateType } from '../../state/main-reducer';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const ShowModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const mainInfo = useSelector<RootStateType, MainStateType>(
+  const mainInfo = useSelector<RootStateType, MainReducerStateType>(
     (state) => state.mainInfo
   );
 

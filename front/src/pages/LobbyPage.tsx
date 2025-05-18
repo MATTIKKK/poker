@@ -28,7 +28,7 @@ const tables = [
     maxPlayers: 6,
     smallBlind: 10,
     bigBlind: 20,
-    status: 'in-progress', // ← НЕ попадёт в список
+    status: 'in-progress', 
   },
 ];
 

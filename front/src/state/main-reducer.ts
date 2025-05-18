@@ -1,27 +1,27 @@
 
 export type ModalType = 'start' | 'none';
 
-export enum MainEnumType {
+export enum MainReducerEnumType {
     CHANGEMODALTYPE = "CHANGEMODALTYPE",
 }
 
 export type ChangeModalActionType = {
-    type: MainEnumType.CHANGEMODALTYPE;
+    type: MainReducerEnumType.CHANGEMODALTYPE;
     modal: ModalType;
 }
 
-type MainActionType = ChangeModalActionType;
+type MainReducerActionType = ChangeModalActionType;
 
-export type MainStateType = {
+export type MainReducerStateType = {
     modal: ModalType;
 }   
 
-const initialState: MainStateType = {
+const initialState: MainReducerStateType = {
     modal: 'none',
 }
-export const mainReducer = (state: MainStateType = initialState, action: MainActionType) => {
+export const mainReducer = (state: MainReducerStateType = initialState, action: MainReducerActionType) => {
   switch (action.type) {
-    case MainEnumType.CHANGEMODALTYPE:
+    case MainReducerEnumType.CHANGEMODALTYPE:
         return {...state, modal: action.modal}
     default:
       return state;
@@ -30,7 +30,7 @@ export const mainReducer = (state: MainStateType = initialState, action: MainAct
 
 export const ChangeModalAC = (modal: ModalType): ChangeModalActionType => {
     return {
-        type: MainEnumType.CHANGEMODALTYPE,
+        type: MainReducerEnumType.CHANGEMODALTYPE,
         modal
     }
 }

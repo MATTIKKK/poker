@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Card, Rank, Street, Suit } from '../types/poker';
+import { Card, DealState } from '../types/poker';
+import { cardImg, deal, openCount } from '../utils/poker';
 import './pages.css';
 
 export const mockParticipants = [
@@ -110,107 +111,7 @@ export const mockParticipants = [
   },
 ];
 
-const rankName: Record<Rank, string> = {
-  '2': '2',
-  '3': '3',
-  '4': '4',
-  '5': '5',
-  '6': '6',
-  '7': '7',
-  '8': '8',
-  '9': '9',
-  T: '10',
-  J: 'jack',
-  Q: 'queen',
-  K: 'king',
-  A: 'ace',
-};
-
-const suitName: Record<Suit, string> = {
-  c: 'clubs',
-  d: 'diamonds',
-  h: 'hearts',
-  s: 'spades',
-};
-
-const ranks: Rank[] = [
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  'T',
-  'J',
-  'Q',
-  'K',
-  'A',
-];
-const suits: Suit[] = ['c', 'd', 'h', 's'];
-
-export function cardImg(c: Card) {
-  return `/cards/${rankName[c.rank]}_of_${suitName[c.suit]}.png`;
-}
-
-/* 52 карточки в порядке ♣♦♥♠ 2…A */
-export function newDeck(): Card[] {
-  return suits.flatMap((s) => ranks.map((r) => ({ rank: r, suit: s })));
-}
-
-/* Фишер–Йетс */
-export function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function openCount(street: Street) {
-  switch (street) {
-    case 'flop':
-      return 3;
-    case 'turn':
-      return 4;
-    case 'river':
-    case 'showdown':
-      return 5;
-    default:
-      return 3; // preflop
-  }
-}
-
-export function deal(statePlayers: any) {
-  let deck = shuffle(newDeck());
-
-  // две карты каждому игроку
-  const players = statePlayers.map((p: any) => ({
-    ...p,
-    hole: [deck.pop()!, deck.pop()!],
-  }));
-
-  // пять community карт (флоп+терн+ривер разом; потом «скроем» лишние)
-  const board = [
-    deck.pop()!,
-    deck.pop()!,
-    deck.pop()!,
-    deck.pop()!,
-    deck.pop()!,
-  ];
-
-  return { players, board, deck };
-}
-
 export default function PokerGamePage() {
-  interface DealState {
-    board: Card[];
-    players: any[];
-    street: Street;
-  }
-
   const currentUserId = 'p8';
   const [dealState, setDealState] = useState<DealState | null>(null);
 
@@ -245,7 +146,6 @@ export default function PokerGamePage() {
 
         {players.map((p: any, i: any) => (
           <div className={`seat seat-${i}`} key={p.id}>
-            {/* ── верхняя строка: аватар + инфо ───────────────── */}
             <div className="player-header">
               <img
                 className="user-avatar"
