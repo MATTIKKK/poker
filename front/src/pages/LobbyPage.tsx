@@ -8,6 +8,37 @@ const LobbyPage = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  async function joinGame(gameId: number, navigate: any) {
+    try {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      if (!token || !userId) {
+        throw new Error('User not authenticated');
+      }
+
+      const res = await fetch(
+        `http://localhost:8000/api/games/${gameId}/join`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Join failed: ${errText}`);
+      }
+
+      navigate(`/game/${gameId}`);
+    } catch (err) {
+      console.error('[JOIN ERROR]', err);
+      alert('Failed to join game. See console.');
+    }
+  }
+
   useEffect(() => {
     async function fetchGames() {
       try {
@@ -56,7 +87,7 @@ const LobbyPage = () => {
               </span>
               <button
                 className="join-btn"
-                onClick={() => navigate(`/table/${t.id}`)}
+                onClick={() => joinGame(t.id, navigate)}
               >
                 Join
               </button>

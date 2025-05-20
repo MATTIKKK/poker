@@ -5,12 +5,12 @@ import './pages.css';
 const CreateGamePage = () => {
   const navigate = useNavigate();
 
-  const [roomName, setRoomName]           = useState<string>('');
-  const [maxPlayers, setMaxPlayers]       = useState<number>(6);
-  const [maxBet, setMaxBet]               = useState<number>(1000);
+  const [roomName, setRoomName] = useState<string>('');
+  const [maxPlayers, setMaxPlayers] = useState<number>(6);
+  const [maxBet, setMaxBet] = useState<number>(1000);
   const [startingChips, setStartingChips] = useState<number>(5000);
-  const [loading, setLoading]             = useState<boolean>(false);
-  const [error, setError]                 = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCreateGame = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,34 +19,44 @@ const CreateGamePage = () => {
 
     try {
       const token = localStorage.getItem('token');
-      if (!token) throw new Error('Нет авторизации');
+      const userId = localStorage.getItem('userId');
+      if (!token || !userId) throw new Error('Unauthorized');
 
       const res = await fetch('http://localhost:8000/api/games', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: roomName,
           maxPlayers,
           maxBet,
           startingChips,
-          gameType: 'Holdem'
-        })
+          gameType: 'Holdem',
+        }),
       });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Сервер вернул ${res.status}: ${text}`);
-      }
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
 
-      const newGame = await res.json(); 
-      console.log("new game", newGame)
-      navigate(`/game/${newGame.id}`);
+      const newGame = await res.json();
+      const gameId = newGame.id;
+
+      const joinRes = await fetch(
+        `http://localhost:8000/api/games/${gameId}/join`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!joinRes.ok) throw new Error('Failed to join the game');
+
+      navigate(`/game/${gameId}`);
     } catch (err: any) {
-      console.error('[CREATE GAME ERROR]', err);
-      setError(err.message || 'Неизвестная ошибка');
+      setError(err.message || 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -61,7 +71,7 @@ const CreateGamePage = () => {
           <input
             type="text"
             value={roomName}
-            onChange={e => setRoomName(e.target.value)}
+            onChange={(e) => setRoomName(e.target.value)}
             placeholder="Enter room name"
             required
             disabled={loading}
@@ -71,10 +81,10 @@ const CreateGamePage = () => {
           Max Players:
           <select
             value={maxPlayers}
-            onChange={e => setMaxPlayers(Number(e.target.value))}
+            onChange={(e) => setMaxPlayers(Number(e.target.value))}
             disabled={loading}
           >
-            {Array.from({ length: 8 }, (_, i) => i + 1).map(n => (
+            {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
               <option key={n} value={n}>
                 {n} players
               </option>
@@ -86,7 +96,7 @@ const CreateGamePage = () => {
           <input
             type="number"
             value={maxBet}
-            onChange={e => setMaxBet(Number(e.target.value))}
+            onChange={(e) => setMaxBet(Number(e.target.value))}
             min={1}
             required
             disabled={loading}
@@ -97,7 +107,7 @@ const CreateGamePage = () => {
           <input
             type="number"
             value={startingChips}
-            onChange={e => setStartingChips(Number(e.target.value))}
+            onChange={(e) => setStartingChips(Number(e.target.value))}
             min={100}
             required
             disabled={loading}

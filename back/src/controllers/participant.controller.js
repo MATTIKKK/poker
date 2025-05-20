@@ -1,17 +1,30 @@
 const { Game, Participant } = require('../../models');
 
 exports.joinGame = async (req, res) => {
-  const userId = req.user.id;
-  const gameId = +req.params.id;
-  const game = await Game.findByPk(gameId);
-  if (!game || game.status !== 'waiting') {
-    return res.status(400).json({ msg: 'Нельзя присоединиться' });
+  try {
+    const userId = req.user?.id;
+    const gameId = parseInt(req.params.gameId, 10);
+    console.log('JoinGame user ID:', req.user?.id, 'game ID:', req.params.gameId);
+
+
+    if (!userId || isNaN(gameId)) {
+      return res.status(400).json({ msg: 'Invalid user or game ID' });
+    }
+
+    const game = await Game.findByPk(gameId);
+    if (!game) {
+      return res.status(404).json({ msg: 'Game not found' });
+    }
+
+    const [participant, created] = await Participant.findOrCreate({
+      where: { userId, gameId },
+    });
+
+    return res.status(201).json({ participant, created });
+  } catch (err) {
+    console.error('[JOIN GAME ERROR]', err);
+    return res.status(500).json({ msg: 'Server error', error: err.message });
   }
-  const [p, created] = await Participant.findOrCreate({
-    where: { userId, gameId }
-  });
-  if (!created) return res.status(409).json({ msg: 'Уже в игре' });
-  res.status(201).json({ msg: 'Присоединились' });
 };
 
 
@@ -56,7 +69,24 @@ exports.getParticipantsByGame = async (req, res) => {
 exports.leaveGame = async (req, res) => {
   const userId = req.user.id;
   const gameId = +req.params.id;
-  const count = await Participant.destroy({ where: { userId, gameId } });
-  if (!count) return res.status(404).json({ msg: 'Не в игре' });
-  res.json({ msg: 'Вышли из игры' });
+
+  // Удалить участника
+  const deleted = await Participant.destroy({
+    where: { userId, gameId }
+  });
+
+  if (!deleted) {
+    return res.status(404).json({ msg: 'Вы не участвуете в этой игре' });
+  }
+
+  // Проверить, остались ли ещё участники
+  const remaining = await Participant.count({ where: { gameId } });
+
+  if (remaining === 0) {
+    // Если никого не осталось — удалить игру
+    await Game.destroy({ where: { id: gameId } });
+    console.log(`🗑 Игра ${gameId} удалена, так как участников больше нет`);
+  }
+
+  res.json({ msg: 'Вы вышли из игры' });
 };
