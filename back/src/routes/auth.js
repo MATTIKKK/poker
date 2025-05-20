@@ -1,5 +1,11 @@
 const { Router } = require('express');
-const { register } = require('../controllers/auth.controller.js');
+const {
+  register,
+  login,
+  anonymousRegister,
+} = require('../controllers/auth.controller.js');
 
 module.exports = Router()
-  .post('/register', register);
+  .post('/register', register)
+  .post('/login', login)
+  .post('/anonymous', anonymousRegister);

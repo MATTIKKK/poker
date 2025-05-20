@@ -11,7 +11,7 @@ export interface Card {
 }
 
 export interface GameState {
-  players: PlayerState[]; 
+  players: Player[]; 
   street: Street;        
   pot: number;           
   toAct: string;         
@@ -21,15 +21,24 @@ export interface GameState {
   bigBlind: number;
 }
 
-export interface PlayerState {
+export interface Player {
   id: string;
+  gameId: string;
+  name: string;
+  stack: number;
+  rating: number;
+  level: string;
   seat: number;
-  stack: number;       
-  bet: number;         
+  isDealer: boolean;
+  isSmallBlind: boolean;
+  isBigBlind: boolean;
+  avatarUrl?: string;
+  /**
+   * Two cards dealt to the player.
+   */
   hole: Card[];
-  folded: boolean;
-  allIn: boolean;
 }
+
 
 export interface DealState {
     board: Card[];

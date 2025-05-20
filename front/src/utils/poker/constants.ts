@@ -1,4 +1,4 @@
-import { Rank, Suit } from "../../types/poker";
+import { Rank, Suit } from '../../types/poker';
 
 export const rankName: Record<Rank, string> = {
   '2': '2',

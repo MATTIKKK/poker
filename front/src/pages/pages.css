@@ -42,23 +42,36 @@
   font-weight: 600;
 }
 
-.rain-item {
+.home-header {
   position: absolute;
-  top: -100px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  animation-name: fallSpin;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  opacity: 0.4;
-  z-index: -1;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 80%;
+  margin: 0 auto;   
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: white;
 }
 
-@keyframes fallSpin {
-  to {
-    transform: translateY(110vh) rotate(720deg);
-  }
+.home-header h2 {
+  z-index: 2;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  z-index: 2;
+}
+.logout-btn:hover {
+  background: rgba(255,255,255,0.1);
 }
 
 .login,
@@ -388,4 +401,169 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+
+
+.create-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.create-game::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../static/img/poker-hero.webp');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.create-game h1 {
+  font-size: 48px;
+  margin: 0;
+  z-index: 2;
+}
+
+.create-game-form {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: min(90%, 380px);
+}
+
+.create-game-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 1rem;
+  gap: 6px;
+}
+
+.create-game-form input,
+.create-game-form select {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.create-game-form button {
+  padding: 15px 20px;
+  border-radius: 20px;
+  background: var(--dark-red);
+  color: white;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+
+
+/* rules.css */
+.rules-page {
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  padding: 60px 20px;
+  background: url('../static/img/poker-hero.webp') center/cover no-repeat;
+  position: relative;
+}
+
+.rules-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.rules-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.rules-header h1 {
+  margin: 0;
+  font-size: 48px;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.back-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.rules-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 40px auto;
+  background: rgba(0,0,0,0.6);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.rules-content section + section {
+  margin-top: 32px;
+}
+
+.cards-demo {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.card.back {
+  width: 60px;
+  height: 90px;
+  background: #143; 
+  border: 2px solid #fff;
+  border-radius: 6px;
+}
+
+
+.hand-example {
+  margin-bottom: 24px;
+}
+
+.hand-example .cards-demo {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.card-sample {
+  width: 50px;
+  height: 75px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.45);
+  background-color: white;
+
+  padding: 3px;
 }
